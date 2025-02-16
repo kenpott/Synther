@@ -2,7 +2,7 @@
 
 local autofarm = true
 
-local CoinsFolder = workspace.LocalStars["Green Heart Forest"]
+local StarsFolder = workspace.LocalStars["Green Heart Forest"]
 local NodesFolder = Instance.new("Folder")
 NodesFolder.Parent = workspace
 NodesFolder.Name = "Nodes"
@@ -12,24 +12,11 @@ local Character = Player.Character or Player.CharacterAdded:Wait()
 local Humanoid = Character:WaitForChild('Humanoid')
 local HumanoidRootPart = Character:WaitForChild('HumanoidRootPart')
 
-local CoinPriority = {
-	Coin = 0,
-	Coin2 = 1,
-	Coin3 = 3,
-}
-
-local function getHighestPriorityCoin()
-	local bestCoin
-	local highestPriority = -1
-
-	for _, coin in ipairs(CoinsFolder:GetChildren()) do
-		local priority = CoinPriority[coin.Name] or -1
-		if priority > highestPriority then
-			highestPriority = priority
-			bestCoin = coin
-		end
+local function getAnyCoin()
+	for _, coin in ipairs(StarsFolder:GetChildren()) do
+		return coin 
 	end
-	return bestCoin
+	return nil
 end
 
 local function CreateNode(pos)
@@ -83,8 +70,7 @@ local function MoveTo(Humanoid, HumanoidRootPart, target)
 end
 
 while autofarm do
-    print("Autofarm")
-	local targetCoin = getHighestPriorityCoin()
+	local targetCoin = getAnyCoin()
 	if targetCoin then
 		MoveTo(Humanoid, HumanoidRootPart, targetCoin)
 	end
