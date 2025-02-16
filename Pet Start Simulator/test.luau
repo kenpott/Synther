@@ -2,9 +2,8 @@
 
 local autofarm = true
 
-local StarsFolder = workspace.LocalStars["Green Heart Forest"]
-local NodesFolder = Instance.new("Folder")
-NodesFolder.Parent = workspace
+local CoinsFolder = game:GetService("Workspace").LocalStars["Green Heart Forest"]
+local NodesFolder = Instance.new("Folder", workspace)
 NodesFolder.Name = "Nodes"
 
 local Player = game.Players.LocalPlayer
@@ -13,8 +12,10 @@ local Humanoid = Character:WaitForChild('Humanoid')
 local HumanoidRootPart = Character:WaitForChild('HumanoidRootPart')
 
 local function getAnyCoin()
-	for _, coin in ipairs(StarsFolder:GetChildren()) do
-		return coin 
+	for _, coin in ipairs(CoinsFolder:GetChildren()) do
+		if coin:IsDescendantOf(workspace) and coin.Primary then
+			return coin 
+		end
 	end
 	return nil
 end
@@ -57,6 +58,8 @@ local function BezierCurve(length, startPos, endPos, controlPos, HumanoidRootPar
 end
 
 local function MoveTo(Humanoid, HumanoidRootPart, target)
+	if not target or not target:IsDescendantOf(workspace) or not target.Primary then return end
+
 	local targetPos = target.Primary.Position
 	local midpoint = (HumanoidRootPart.Position + targetPos) / 2
 	local controlPoint = midpoint + Vector3.new(math.random(-20, 20), 0, 0)
