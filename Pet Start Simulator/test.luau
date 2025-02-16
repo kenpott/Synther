@@ -2,7 +2,7 @@
 
 local autofarm = true
 
-local CoinsFolder = game:GetService("Workspace").LocalStars["Green Heart Forest"]
+local StarsFolder = game:GetService("Workspace").LocalStars["Spawn Lobby"]
 local NodesFolder = Instance.new("Folder", workspace)
 NodesFolder.Name = "Nodes"
 
@@ -11,10 +11,10 @@ local Character = Player.Character or Player.CharacterAdded:Wait()
 local Humanoid = Character:WaitForChild('Humanoid')
 local HumanoidRootPart = Character:WaitForChild('HumanoidRootPart')
 
-local function getAnyCoin()
-	for _, coin in ipairs(CoinsFolder:GetChildren()) do
-		if coin:IsDescendantOf(workspace) and coin.Primary then
-			return coin 
+local function getStar()
+	for _, star in ipairs(StarsFolder:GetChildren()) do
+		if star:IsDescendantOf(workspace) and star.Primary then
+			return star 
 		end
 	end
 	return nil
@@ -73,7 +73,7 @@ local function MoveTo(Humanoid, HumanoidRootPart, target)
 end
 
 while autofarm do
-	local targetCoin = getAnyCoin()
+	local targetCoin = getStar()
 	if targetCoin then
 		MoveTo(Humanoid, HumanoidRootPart, targetCoin)
 	end
